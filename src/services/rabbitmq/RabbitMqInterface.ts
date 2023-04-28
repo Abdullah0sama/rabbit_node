@@ -1,0 +1,1 @@
+export type ConsumerFn = (payload: object) => Promise<unknown>

@@ -1,5 +1,5 @@
 import http from 'http'
-import { createApp } from './app'
+import { RegisterServices, clients, createApp } from './app'
 import { config } from './config'
 
 
@@ -9,16 +9,22 @@ async function createServer() {
     server.listen(config.PORT, () => {
         console.log('Server has started!')
     })
-
-    process.on('SIGINT', () => {
-        console.log('SIGINT Signal recieved, server is shutting down')
-        server.close()
-    })
-
-    process.on('SIGTERM', () => {
-        console.log('SIGTERM Signal recieved, server is shutting down')
-        server.close()
-    })
+    RegisterServices(server)
 }
 
 createServer()
+
+
+process.on('SIGINT', () => {
+    console.log('SIGINT Signal recieved, server is shutting down')
+    ShutdownHandler()
+})
+
+process.on('SIGTERM', () => {
+    console.log('SIGTERM Signal recieved, server is shutting down')
+    ShutdownHandler()
+})
+
+function ShutdownHandler() {
+    clients.map(client => client.close())
+}

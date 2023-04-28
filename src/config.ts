@@ -8,6 +8,9 @@ dotenv.config()
 
 export const config: EnvConfig = {
     PORT: getMandatoryInt('PORT'),
+    RABBITMQ: {
+        url: getMandatory('RABBITMQ_URL')
+    },
     ELASTICSEARCH: {
         nodes: [
             {
@@ -21,5 +24,8 @@ export interface EnvConfig {
     PORT: number,
     ELASTICSEARCH: {
         nodes: NodeOptions[]
+    },
+    RABBITMQ: {
+        url: string
     }
 }
