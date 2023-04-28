@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node src/server",
     "build": "tsc",
-    "start": "node ./dist/src/server"
+    "start": "node ./dist/src/server",
+    "publish:userInfo": "ts-node ./src/publishers/UserInfoPublisher.ts"
   },
   "author": "",
   "license": "ISC",
