@@ -11,12 +11,9 @@ export class UserController {
     routes() {
         const router = Router()
 
-        router.get('/users', (req, res) => {
-            res.status(200).send('User Data')
-        })
-
         router.get('/users/search', async (req, res) => {
-            const users = await this.elasicS.search(UserIndex.name)
+            const searchQuery = (req.query.q) ? req.query.q.toString(): '*'
+            const users = await this.elasicS.search(UserIndex.name, searchQuery)
             res.status(200).send({ data: users })
         })
         return router

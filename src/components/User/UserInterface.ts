@@ -26,3 +26,7 @@ export interface Friend {
     id:   number;
     name: string;
 }
+
+export interface User extends Omit<BaseUser, '_id'>{
+    ingestedAt: string
+}

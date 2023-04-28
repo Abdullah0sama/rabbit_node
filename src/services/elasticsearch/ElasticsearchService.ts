@@ -1,5 +1,6 @@
 import { Client, errors } from '@elastic/elasticsearch'
 import { Indicies } from './indicies/indicies'
+import { User } from '../../components/User/UserInterface'
 
 export class ElasticSearchService {
     private constructor(
@@ -33,15 +34,30 @@ export class ElasticSearchService {
         return new ElasticSearchService(client)
     }
 
+    async create(index: string, payload: object, id?: string) {
+        await this.client.index({
+            index,
+            id,
+            document: payload
+        })
+    }
 
-    async search(index: string) {
-        const searchResults = await this.client.search({
+
+    async search(index: string, query: string) {
+        const searchResults = await this.client.search<User>({
             index,
             query: {
-                match_all: {}
-            }
+                query_string: {
+                    query,
+                    default_field: '*'
+                }
+            },
+            
         })
-        return searchResults.hits.hits
+
+        return searchResults.hits.hits.map(hit => {
+            return { _id: hit._id, ...hit._source }
+        })
     }
     
 }
