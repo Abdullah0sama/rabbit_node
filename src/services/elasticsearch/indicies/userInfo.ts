@@ -53,10 +53,13 @@ export const UserInfoIndexMapping: Record<string, MappingProperty> = {
         "type": "keyword"
     },
     "registered": {
-        "type": "keyword"
+        "type": "date"
     },
     "tags": {
         "type": "keyword"
+    },
+    "ingestedAt": {
+        "type": "date"
     }
 }
 

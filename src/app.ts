@@ -7,6 +7,7 @@ import { ElasticSearchService } from "./services/elasticsearch/ElasticsearchServ
 import amqp from 'amqplib'
 import { RabbitMQService } from "./services/rabbitmq/RabbitMQService"
 import { userInfoConsumer } from "./consumers/UserInfoConsumer"
+import { Queues } from "./services/rabbitmq/Queue"
 
 
 export async function createApp() {
@@ -23,7 +24,7 @@ export async function createApp() {
 
     const channel = await conn.createChannel()
     const rabbitMQS = new RabbitMQService(channel)
-    rabbitMQS.consume('user-info', userInfoConsumer)
+    rabbitMQS.consume(Queues.UserInfo, userInfoConsumer(elasticService))
 
 
     // register controllers 
